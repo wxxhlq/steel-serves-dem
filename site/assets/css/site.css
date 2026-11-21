@@ -2498,12 +2498,13 @@ ul, ol {
 .check__box {
     display: grid;
     place-items: center;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     margin-top: 1px;
     border: 1px solid var(--line-strong);
     color: transparent;
     flex: none;
+    cursor: pointer;
     transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 

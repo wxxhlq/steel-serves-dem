@@ -332,7 +332,7 @@ function lead_form(string $id, string $source, string $title, string $text, stri
         </div>
         <div class="check">
             <input class="check__input" id="consent-<?= e($id) ?>" type="checkbox" name="consent" required>
-            <span class="check__box" aria-hidden="true"><?= icon('check', 'ico check__ico') ?></span>
+            <label class="check__box" for="consent-<?= e($id) ?>"><?= icon('check', 'ico check__ico') ?></label>
             <span class="check__text"><label for="consent-<?= e($id) ?>"><?= e($consent) ?></label>. Ознакомлен с <button type="button" class="link-inline" data-open-privacy><?= e($link) ?></button>.</span>
         </div>
         <button class="btn btn--accent btn--full" type="submit">
