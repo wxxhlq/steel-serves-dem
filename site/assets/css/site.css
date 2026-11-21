@@ -2625,29 +2625,6 @@ ul, ol {
     color: var(--muted);
 }
 
-.footer__disclaimer {
-    text-align: right;
-}
-
-.footer__legal {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px 18px;
-}
-
-.footer__login {
-    color: var(--muted);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-    transition: color 0.18s ease, border-color 0.18s ease;
-}
-
-.footer__login:hover,
-.footer__login:focus-visible {
-    color: var(--accent);
-    border-color: var(--accent);
-}
 
 /* ---------- Mobile bar ---------- */
 

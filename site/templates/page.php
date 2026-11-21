@@ -687,10 +687,7 @@ $bizLd = [
     </div>
 
     <div class="container footer__bottom">
-        <div class="footer__legal">
-            <span<?= bm('site.copyright') ?>><?= e($site['copyright'] ?? '© ' . $year . ' ' . $company) ?></span>
-            <a class="footer__login" href="/login" rel="nofollow" aria-label="Вход в панель управления сайтом">Вход</a>
-        </div>
+        <span<?= bm('site.copyright') ?>><?= e($site['copyright'] ?? '© ' . $year . ' ' . $company) ?></span>
     </div>
 </footer>
 
