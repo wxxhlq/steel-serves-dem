@@ -176,7 +176,12 @@ if (getenv('BM_DISABLE_MAIL') !== '1' && filter_var($to, FILTER_VALIDATE_EMAIL))
         'X-Mailer: steel-serves',
     ];
 
-    $sent = @mail($to, $subject, $body, implode("\r\n", $headers));
+    // Не глушим ошибку: причина неудачной отправки должна попасть в логи Render.
+    $sent = mail($to, $subject, $body, implode("\r\n", $headers));
+    error_log('lead mail: to=' . $to . ' from=' . $from . ' result=' . ($sent ? 'sent' : 'failed'));
+    if (!$sent) {
+        create_log_entry('lead ' . ($lead['id'] ?? '') . ': mail_failed to=' . $to . ' from=' . $from);
+    }
 }
 
 $lead['mail'] = $sent;
@@ -185,10 +190,6 @@ $stored = leads_append($lead);
 if (!$stored && !$sent) {
     create_log_entry('lead ' . ($lead['id'] ?? 'unknown') . ': storage_failed');
     lead_response(false, 'Не удалось отправить заявку. Позвоните нам: +375 (29) 335-50-68.', 500);
-}
-
-if (!$sent) {
-    create_log_entry('lead ' . ($lead['id'] ?? 'unknown') . ': mail_failed');
 }
 
 $success = trim((string)($forms['success'] ?? ''));
