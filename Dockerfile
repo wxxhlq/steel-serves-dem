@@ -14,6 +14,7 @@ RUN apt-get update \
     && a2enmod rewrite headers expires deflate setenvif \
     && rm -rf /var/lib/apt/lists/*
 
+COPY config/apache-security.conf /etc/apache2/conf-available/steel-security.conf
 COPY config/apache-site.conf /etc/apache2/sites-available/000-default.conf
 COPY config/php.ini /usr/local/etc/php/php.ini
 COPY bin/entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -21,7 +22,8 @@ COPY bin/make_config.php /usr/local/bin/make_config.php
 COPY bin/render_index.php /usr/local/bin/render_index.php
 COPY site/ /var/www/html/
 
-RUN chmod 0755 /usr/local/bin/entrypoint.sh \
+RUN a2enconf steel-security \
+    && chmod 0755 /usr/local/bin/entrypoint.sh \
     && chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 0755 {} + \
     && find /var/www/html -type f -exec chmod 0644 {} +
