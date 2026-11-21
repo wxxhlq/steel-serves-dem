@@ -3179,7 +3179,8 @@ body.is-locked {
     }
 
     .hero__title {
-        font-size: clamp(2.6rem, 10.4vw, 4.4rem);
+        font-size: clamp(2.8rem, 12vw, 4.6rem);
+        letter-spacing: -0.025em;
     }
 
     .hero__lead {

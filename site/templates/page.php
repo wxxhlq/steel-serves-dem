@@ -32,7 +32,7 @@ $heroSlides = [
     [
         'src' => $hero['image'] ?? '',
         'alt' => $hero['image_alt'] ?? '',
-        'caption' => $hero['image_caption'] ?? 'AISI 304',
+        'caption' => $hero['image_caption'] ?? '????? 304',
         'path' => 'hero.image',
         'alt_path' => 'hero.image_alt',
         'caption_path' => 'hero.image_caption',
@@ -287,7 +287,7 @@ $bizLd = [
                 <?php for ($r = 0; $r < 2; $r++): ?>
                     <span class="ticker__group">
                         <?php for ($k = 0; $k < 3; $k++): ?>
-                            <span<?= bm('hero.ticker') ?>><?= e($hero['ticker'] ?? 'AISI 304') ?></span>
+                            <span<?= bm('hero.ticker') ?>><?= e($hero['ticker'] ?? '????? 304') ?></span>
                         <?php endfor; ?>
                     </span>
                 <?php endfor; ?>
@@ -691,7 +691,6 @@ $bizLd = [
             <span<?= bm('site.copyright') ?>><?= e($site['copyright'] ?? '© ' . $year . ' ' . $company) ?></span>
             <a class="footer__login" href="/login" rel="nofollow" aria-label="Вход в панель управления сайтом">Вход</a>
         </div>
-        <span class="footer__disclaimer">Информация на сайте не является публичной офертой.</span>
     </div>
 </footer>
 
