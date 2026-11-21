@@ -1,0 +1,115 @@
+# =========================================================
+#  steel-serves.by — Apache (hoster.by)
+# =========================================================
+
+AddDefaultCharset UTF-8
+DirectoryIndex index.html index.php
+Options -Indexes -MultiViews
+ErrorDocument 404 /404.html
+
+<IfModule mod_mime.c>
+    AddType image/avif .avif
+    AddType image/webp .webp
+    AddType font/woff2 .woff2
+    AddType application/manifest+json .webmanifest
+    AddType application/ld+json .jsonld
+</IfModule>
+
+# ---------- HTTPS + без www ----------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{REQUEST_URI} !^/healthz$ [NC]
+    RewriteCond %{HTTP_HOST} !^localhost [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+    # Короткий адрес входа в админку: site.by/login → /admin/
+    RewriteRule ^login/?$ /admin/ [R=302,L]
+</IfModule>
+
+# ---------- Безопасность ----------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+    Header always set Origin-Agent-Cluster "?1"
+
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; manifest-src 'self'; media-src 'self'"
+
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+    Header always unset X-Powered-By
+</IfModule>
+
+<IfModule mod_php.c>
+    php_flag display_errors off
+    php_value log_errors 1
+</IfModule>
+
+# ---------- Кэширование ----------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/manifest+json "access plus 1 week"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+    <FilesMatch "\.(css|js|woff2|webp|avif|jpe?g|png|svg)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
+# ---------- Сжатие ----------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml application/manifest+json
+</IfModule>
+
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml application/manifest+json
+</IfModule>
+
+# ---------- Глобальная защита от служебных файлов ----------
+<IfModule mod_rewrite.c>
+    RewriteRule (^|/)\.(git|env|svn|hg|idea|vscode)(/|$) - [F,L]
+    RewriteRule \.(sql|bak|old|swp|orig|log|ya?ml|dist|tmp)$ - [F,L,NC]
+    RewriteRule (^|/)composer\.(json|lock)$ - [F,L,NC]
+    RewriteRule (^|/)data/(config\.php|leads\.php|mail\.log|rate\.php|login\.php|setup\.lock)$ - [F,L]
+</IfModule>
+
+<IfModule mod_alias.c>
+    RedirectMatch 403 (?i)\.(sql|bak|old|swp|orig|log|ya?ml|dist|tmp)$
+    RedirectMatch 403 (?i)(^|/)\.(git|env|svn|hg|idea|vscode)/
+</IfModule>
+
+# ---------- Служебные файлы ----------
+<FilesMatch "^(\.htaccess|\.htpasswd|\.git|composer\.(json|lock)|package(-lock)?\.json|README.*|.*\.md)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Служебные файлы закрыты в data/, lib/, templates/ и uploads/.
+# Не используем глобальный FilesMatch: он задел бы admin/leads.php.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="База-Металла">
+  <rect width="64" height="64" fill="#0a0c0d"/>
+  <rect x="7" y="7" width="50" height="50" fill="none" stroke="#2b3437" stroke-width="0.8"/>
+  <g fill="#b8f23c">
+    <rect x="16.9" y="20.2" width="2.7" height="23.6"/>
+    <rect x="30.65" y="20.2" width="2.7" height="23.6"/>
+    <rect x="44.4" y="20.2" width="2.7" height="23.6"/>
+    <rect x="12.5" y="19.2" width="39" height="2.7"/>
+  </g>
+  <rect x="11.5" y="43.8" width="41" height="1.7" fill="#e9ecee"/>
+</svg>
