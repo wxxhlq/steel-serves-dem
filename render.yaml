@@ -1,18 +1,26 @@
-# Render Blueprint — БЕСПЛАТНЫЙ демо-хостинг.
-# PHP-сайт целиком (включая админку), но без постоянного диска.
-# Пароль не записан в файле: Render запросит его при создании сервиса.
+# Render Blueprint — полная версия демо с админкой и постоянным диском.
+# Пароль НЕ хранится в файле: Render запросит его при создании сервиса.
 services:
   - type: web
-    name: steel-serves-demo-free
+    name: steel-serves-demo
     runtime: docker
-    plan: free
+    plan: 0.5c-512mb
     region: frankfurt
     dockerfilePath: ./Dockerfile
     healthCheckPath: /healthz
+    numInstances: 1
     envVars:
       - key: PORT
         value: 10000
       - key: BM_DISABLE_MAIL
         value: "1"
+      # ВРЕМЕННО: получатель заявок для проверки (не показывается на сайте).
+      # Уберите эту строку после теста — тогда получателем станет e-mail из контента.
+      - key: BM_LEAD_EMAIL
+        value: udomanskaya99@mail.ru
       - key: BM_ADMIN_PASSWORD
         sync: false
+    disk:
+      name: steel-serves-data
+      mountPath: /var/www/html/storage
+      sizeGB: 1

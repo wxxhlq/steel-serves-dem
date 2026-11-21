@@ -82,6 +82,10 @@ $cfg = config_load();
 
 $leadCount = count($leads);
 $mailFrom = (string)($cfg['mail_from'] ?? '');
+$leadTo = trim((string)($cfg['lead_email'] ?? (getenv('BM_LEAD_EMAIL') ?: '')));
+if ($leadTo === '') {
+    $leadTo = (string)(content_load()['site']['email'] ?? '');
+}
 $siteTitle = (string)($c['site']['title'] ?? 'База-Металла');
 $contentJson = json_encode($c, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 if ($contentJson === false) {
@@ -297,7 +301,7 @@ $leadRows = array_slice($leads, 0, 100);
                     <div class="panel__head">
                         <div>
                             <h2>Почта для заявок</h2>
-                            <p>Адрес получателя задаётся в разделе «Сайт и контакты». Здесь — адрес отправителя.</p>
+                            <p>Сейчас заявки отправляются на <b><?= e($leadTo) ?></b>. Здесь — адрес отправителя.</p>
                         </div>
                     </div>
 

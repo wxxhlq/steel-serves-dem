@@ -101,7 +101,11 @@ $c = content_load();
 $site = $c['site'] ?? [];
 $forms = $c['forms'] ?? [];
 $company = (string)($site['company'] ?? 'База-Металла');
-$to = trim((string)($site['email'] ?? ''));
+$cfg = config_load();
+// Получатель заявок: отдельная настройка, не отображается на сайте.
+// Если она не задана — используется контактный e-mail из контента.
+$leadEmail = trim((string)($cfg['lead_email'] ?? (getenv('BM_LEAD_EMAIL') ?: '')));
+$to = $leadEmail !== '' ? $leadEmail : trim((string)($site['email'] ?? ''));
 
 $source = preg_replace('/[^a-z0-9_-]/i', '', substr((string)($_POST['source'] ?? 'site'), 0, 40)) ?: 'site';
 $page = substr(trim((string)($_POST['page'] ?? '')), 0, 300);
@@ -123,7 +127,6 @@ $lead = [
 
 /* ---------- Письмо ---------- */
 
-$cfg = config_load();
 $from = trim((string)($cfg['mail_from'] ?? ''));
 $host = parse_url((string)($site['domain'] ?? ''), PHP_URL_HOST) ?: 'steel-serves.by';
 if (!filter_var($from, FILTER_VALIDATE_EMAIL)) {
