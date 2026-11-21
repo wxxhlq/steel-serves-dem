@@ -25,12 +25,6 @@ $cfg = [
     'password_version' => time(),
 ];
 
-// Необязательный получатель заявок: не отображается на публичных страницах.
-$leadEmail = trim((string)(getenv('BM_LEAD_EMAIL') ?: ''));
-if ($leadEmail !== '' && filter_var($leadEmail, FILTER_VALIDATE_EMAIL)) {
-    $cfg['lead_email'] = $leadEmail;
-}
-
 $dir = dirname($target);
 if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
     fwrite(STDERR, "cannot create directory: $dir\n");

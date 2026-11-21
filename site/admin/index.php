@@ -102,6 +102,7 @@ $leadRows = array_slice($leads, 0, 100);
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf" content="<?= e(csrf_token()) ?>">
     <meta name="mail-from" content="<?= e($mailFrom) ?>">
+    <meta name="lead-to" content="<?= e($leadTo) ?>">
     <title>Управление сайтом — База-Металла</title>
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../assets/css/fonts.css">
@@ -301,11 +302,19 @@ $leadRows = array_slice($leads, 0, 100);
                     <div class="panel__head">
                         <div>
                             <h2>Почта для заявок</h2>
-                            <p>Сейчас заявки отправляются на <b><?= e($leadTo) ?></b>. Здесь — адрес отправителя.</p>
+                            <p>Здесь задаётся адрес, на который приходят заявки, и адрес отправителя.</p>
                         </div>
                     </div>
 
                     <form class="settings-form" data-settings-form>
+                        <label class="field">
+                            <span class="field__label">Куда приходят заявки</span>
+                            <input class="input" type="email" name="lead_email" data-lead-email
+                                   value="<?= e($leadTo) ?>" placeholder="info@steel-serves.by">
+                            <span class="field__hint">
+                                Сюда уходит каждая заявка с формы. Адрес не показывается посетителям сайта.
+                            </span>
+                        </label>
                         <label class="field">
                             <span class="field__label">E-mail отправителя</span>
                             <input class="input" type="email" name="mail_from" data-mail-from

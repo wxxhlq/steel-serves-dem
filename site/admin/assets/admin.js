@@ -1248,6 +1248,7 @@
             event.preventDefault();
             var status = $('[data-settings-status]');
             var mailFrom = settingsForm.querySelector('[name="mail_from"]').value.trim();
+            var leadEmail = settingsForm.querySelector('[name="lead_email"]').value.trim();
             if (status) {
                 status.className = 'form-note';
                 status.textContent = 'Сохраняем…';
@@ -1256,7 +1257,7 @@
             api('action.php?do=settings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mail_from: mailFrom })
+                body: JSON.stringify({ mail_from: mailFrom, lead_email: leadEmail })
             }).then(function (response) {
                 if (!status) {
                     return;
@@ -1267,6 +1268,10 @@
                     var meta = document.querySelector('meta[name="mail-from"]');
                     if (meta) {
                         meta.setAttribute('content', mailFrom);
+                    }
+                    var leadMeta = document.querySelector('meta[name="lead-to"]');
+                    if (leadMeta) {
+                        leadMeta.setAttribute('content', leadEmail);
                     }
                 }
             }).catch(function () {

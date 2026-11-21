@@ -357,9 +357,18 @@ if ($do === 'settings') {
     if ($mailFrom !== '' && !filter_var($mailFrom, FILTER_VALIDATE_EMAIL)) {
         json_out(['ok' => false, 'message' => 'Укажите корректный e-mail отправителя.'], 422);
     }
+    $leadEmail = trim((string)($payload['lead_email'] ?? ''));
+    if ($leadEmail !== '' && !filter_var($leadEmail, FILTER_VALIDATE_EMAIL)) {
+        json_out(['ok' => false, 'message' => 'Укажите корректный e-mail для заявок.'], 422);
+    }
 
     $cfg = config_load();
     $cfg['mail_from'] = $mailFrom;
+    if ($leadEmail !== '') {
+        $cfg['lead_email'] = $leadEmail;
+    } else {
+        unset($cfg['lead_email']);
+    }
     if (!config_save($cfg)) {
         json_out(['ok' => false, 'message' => 'Не удалось сохранить настройки. Проверьте права на data.'], 500);
     }

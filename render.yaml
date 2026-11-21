@@ -14,9 +14,6 @@ services:
         value: 10000
       - key: BM_DISABLE_MAIL
         value: "1"
-      # ВРЕМЕННО: получатель заявок для проверки (не показывается на сайте).
-      # Уберите эту строку после теста — тогда получателем станет e-mail из контента.
-      - key: BM_LEAD_EMAIL
         value: udomanskaya99@mail.ru
       - key: BM_ADMIN_PASSWORD
         sync: false
