@@ -7,6 +7,7 @@
 define('ROOT', dirname(__DIR__));
 require ROOT . '/lib/admin.php';
 require ROOT . '/lib/images.php';
+require ROOT . '/lib/mailer.php';
 admin_session();
 
 $do = (string)($_GET['do'] ?? '');
@@ -353,26 +354,94 @@ if ($do === 'password') {
 
 if ($do === 'settings') {
     $payload = read_json_body(64 * 1024);
-    $mailFrom = trim((string)($payload['mail_from'] ?? ''));
-    if ($mailFrom !== '' && !filter_var($mailFrom, FILTER_VALIDATE_EMAIL)) {
-        json_out(['ok' => false, 'message' => 'Укажите корректный e-mail отправителя.'], 422);
-    }
-    $leadEmail = trim((string)($payload['lead_email'] ?? ''));
-    if ($leadEmail !== '' && !filter_var($leadEmail, FILTER_VALIDATE_EMAIL)) {
-        json_out(['ok' => false, 'message' => 'Укажите корректный e-mail для заявок.'], 422);
+    $cfg = config_load();
+
+    // Обновляем только переданные поля: частичный запрос не должен стирать
+    // уже сохранённые настройки (особенно пароль SMTP).
+    if (array_key_exists('mail_from', $payload)) {
+        $mailFrom = trim((string)($payload['mail_from'] ?? ''));
+        if ($mailFrom !== '' && !filter_var($mailFrom, FILTER_VALIDATE_EMAIL)) {
+            json_out(['ok' => false, 'message' => 'Укажите корректный e-mail отправителя.'], 422);
+        }
+        $cfg['mail_from'] = $mailFrom;
     }
 
-    $cfg = config_load();
-    $cfg['mail_from'] = $mailFrom;
-    if ($leadEmail !== '') {
-        $cfg['lead_email'] = $leadEmail;
-    } else {
-        unset($cfg['lead_email']);
+    if (array_key_exists('lead_email', $payload)) {
+        $leadEmail = trim((string)($payload['lead_email'] ?? ''));
+        if ($leadEmail !== '' && !filter_var($leadEmail, FILTER_VALIDATE_EMAIL)) {
+            json_out(['ok' => false, 'message' => 'Укажите корректный e-mail для заявок.'], 422);
+        }
+        if ($leadEmail !== '') {
+            $cfg['lead_email'] = $leadEmail;
+        } else {
+            unset($cfg['lead_email']);
+        }
     }
+
+    if (array_key_exists('smtp_port', $payload)) {
+        $smtpPort = (int)($payload['smtp_port'] ?? 465);
+        if ($smtpPort < 1 || $smtpPort > 65535) {
+            json_out(['ok' => false, 'message' => 'Некорректный порт SMTP.'], 422);
+        }
+    }
+    if (array_key_exists('smtp_secure', $payload)
+        && !in_array((string)($payload['smtp_secure'] ?? ''), ['ssl', 'tls', 'none'], true)) {
+        json_out(['ok' => false, 'message' => 'Неизвестный способ шифрования SMTP.'], 422);
+    }
+
+    if (array_key_exists('smtp_host', $payload)) {
+        $smtpHost = trim((string)($payload['smtp_host'] ?? ''));
+        $cfg['smtp_host'] = $smtpHost;
+        $cfg['smtp_port'] = (int)($payload['smtp_port'] ?? ($cfg['smtp_port'] ?? 465));
+        $cfg['smtp_secure'] = (string)($payload['smtp_secure'] ?? ($cfg['smtp_secure'] ?? 'ssl'));
+        $cfg['smtp_user'] = trim((string)($payload['smtp_user'] ?? ''));
+        if (array_key_exists('smtp_pass', $payload) && (string)($payload['smtp_pass'] ?? '') !== '') {
+            $cfg['smtp_pass'] = (string)$payload['smtp_pass'];
+        }
+        if ($smtpHost === '') {
+            unset($cfg['smtp_host'], $cfg['smtp_port'], $cfg['smtp_secure'], $cfg['smtp_user'], $cfg['smtp_pass']);
+        }
+    }
+
     if (!config_save($cfg)) {
         json_out(['ok' => false, 'message' => 'Не удалось сохранить настройки. Проверьте права на data.'], 500);
     }
     json_out(['ok' => true, 'message' => 'Настройки сохранены.']);
+}
+
+/* ---------- Тест почты ---------- */
+
+if ($do === 'testmail') {
+    $rate = rate_check('testmail', $ip, 5, 900);
+    if (!$rate['ok']) {
+        json_out(['ok' => false, 'message' => 'Слишком много проверок. Подождите ' . max(1, (int)ceil($rate['retry'] / 60)) . ' мин.'], 429);
+    }
+
+    $cfg = config_load();
+    $leadTo = trim((string)($cfg['lead_email'] ?? (content_load()['site']['email'] ?? '')));
+    if ($leadTo === '' || !filter_var($leadTo, FILTER_VALIDATE_EMAIL)) {
+        json_out(['ok' => false, 'message' => 'Сначала укажите корректный адрес получателя заявок.'], 422);
+    }
+
+    // При включённой SMTP проверяем соединение, не отправляя письмо.
+    if (!empty($cfg['smtp_host'])) {
+        [$ok, $message] = mailer_test_connection();
+        json_out(['ok' => $ok, 'message' => $message], $ok ? 200 : 502);
+    }
+
+    // Без SMTP проверяем штатную отправку, если она не отключена.
+    if (getenv('BM_DISABLE_MAIL') === '1') {
+        json_out(['ok' => false, 'message' => 'Отправка почты отключена переменной BM_DISABLE_MAIL.'], 422);
+    }
+    $sent = mailer_send(
+        $leadTo,
+        'Проверка почты — База-Металла',
+        '<p>Если вы видите это письмо, настройки почты работают.</p>'
+    );
+    json_out(
+        ['ok' => $sent, 'message' => $sent ? 'Тестовое письмо отправлено: ' . $leadTo : 'Не удалось отправить письмо. Проверьте/logs хостинга.'],
+        $sent ? 200 : 502
+    );
 }
 
 json_out(['ok' => false, 'message' => 'Неизвестное действие.'], 404);

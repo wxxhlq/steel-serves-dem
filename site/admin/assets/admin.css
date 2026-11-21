@@ -1042,6 +1042,42 @@ body.is-visual .content {
     align-self: stretch;
 }
 
+.settings-form {
+    max-width: 720px;
+}
+
+.settings-subhead {
+    align-self: stretch;
+    margin: 18px 0 4px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.settings-help {
+    align-self: stretch;
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px 16px;
+    align-self: stretch;
+}
+
+.settings-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+
 .form-note {
     display: block;
     margin-top: 10px;

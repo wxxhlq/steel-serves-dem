@@ -6,6 +6,7 @@
 
 define('ROOT', dirname(__DIR__));
 require ROOT . '/lib/admin.php';
+require ROOT . '/lib/mailer.php';
 
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
@@ -127,18 +128,11 @@ $lead = [
 
 /* ---------- Письмо ---------- */
 
-$from = trim((string)($cfg['mail_from'] ?? ''));
 $host = parse_url((string)($site['domain'] ?? ''), PHP_URL_HOST) ?: 'steel-serves.by';
-if (!filter_var($from, FILTER_VALIDATE_EMAIL)) {
-    $from = 'no-reply@' . $host;
-}
-
 $sent = false;
 
 if (getenv('BM_DISABLE_MAIL') !== '1' && filter_var($to, FILTER_VALIDATE_EMAIL)) {
     $subjectText = 'Новая заявка с сайта — ' . $name;
-    $subject = '=?UTF-8?B?' . base64_encode($subjectText) . '?=';
-    $fromName = '=?UTF-8?B?' . base64_encode('Сайт ' . $company) . '?=';
 
     $rows = [
         'Имя' => $name,
@@ -167,21 +161,7 @@ if (getenv('BM_DISABLE_MAIL') !== '1' && filter_var($to, FILTER_VALIDATE_EMAIL))
     $body .= '<p style="margin:18px 0 0;font-size:13px;line-height:1.6;color:#596367">Перезвоните клиенту. Если заявка выглядит подозрительно, просто не отвечайте на неё.</p>';
     $body .= '</td></tr></table></body></html>';
 
-    $headers = [
-        'MIME-Version: 1.0',
-        'Content-Type: text/html; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
-        'From: ' . $fromName . ' <' . $from . '>',
-        'Reply-To: ' . $from,
-        'X-Mailer: steel-serves',
-    ];
-
-    // Не глушим ошибку: причина неудачной отправки должна попасть в логи Render.
-    $sent = mail($to, $subject, $body, implode("\r\n", $headers));
-    error_log('lead mail: to=' . $to . ' from=' . $from . ' result=' . ($sent ? 'sent' : 'failed'));
-    if (!$sent) {
-        create_log_entry('lead ' . ($lead['id'] ?? '') . ': mail_failed to=' . $to . ' from=' . $from);
-    }
+    $sent = mailer_send($to, $subjectText, $body, ['Reply-To: ' . mailer_from_address(mailer_settings())]);
 }
 
 $lead['mail'] = $sent;

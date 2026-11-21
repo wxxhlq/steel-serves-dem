@@ -1247,8 +1247,21 @@
         settingsForm.addEventListener('submit', function (event) {
             event.preventDefault();
             var status = $('[data-settings-status]');
-            var mailFrom = settingsForm.querySelector('[name="mail_from"]').value.trim();
-            var leadEmail = settingsForm.querySelector('[name="lead_email"]').value.trim();
+            var val = function (name) {
+                var el = settingsForm.querySelector('[name="' + name + '"]');
+                return el ? el.value.trim() : '';
+            };
+            var mailFrom = val('mail_from');
+            var leadEmail = val('lead_email');
+            var payload = {
+                mail_from: mailFrom,
+                lead_email: leadEmail,
+                smtp_host: val('smtp_host'),
+                smtp_port: val('smtp_port'),
+                smtp_secure: val('smtp_secure'),
+                smtp_user: val('smtp_user'),
+                smtp_pass: val('smtp_pass')
+            };
             if (status) {
                 status.className = 'form-note';
                 status.textContent = 'Сохраняем…';
@@ -1257,7 +1270,7 @@
             api('action.php?do=settings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mail_from: mailFrom, lead_email: leadEmail })
+                body: JSON.stringify(payload)
             }).then(function (response) {
                 if (!status) {
                     return;
@@ -1273,7 +1286,38 @@
                     if (leadMeta) {
                         leadMeta.setAttribute('content', leadEmail);
                     }
+                    var passField = settingsForm.querySelector('[name="smtp_pass"]');
+                    if (passField) {
+                        passField.value = '';
+                    }
                 }
+            }).catch(function () {
+                if (status) {
+                    status.textContent = 'Нет связи с сервером.';
+                    status.className = 'form-note is-error';
+                }
+            });
+        });
+    }
+
+    var testMailBtn = $('[data-test-mail]');
+    if (testMailBtn) {
+        testMailBtn.addEventListener('click', function () {
+            var status = $('[data-settings-status]');
+            if (status) {
+                status.className = 'form-note';
+                status.textContent = 'Проверяем почту…';
+            }
+            api('action.php?do=testmail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: '{}'
+            }).then(function (response) {
+                if (!status) {
+                    return;
+                }
+                status.textContent = response.message || '';
+                status.className = 'form-note ' + (response.ok ? 'is-success' : 'is-error');
             }).catch(function () {
                 if (status) {
                     status.textContent = 'Нет связи с сервером.';

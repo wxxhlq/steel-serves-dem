@@ -86,6 +86,11 @@ $leadTo = trim((string)($cfg['lead_email'] ?? (getenv('BM_LEAD_EMAIL') ?: '')));
 if ($leadTo === '') {
     $leadTo = (string)(content_load()['site']['email'] ?? '');
 }
+$smtpHost = (string)($cfg['smtp_host'] ?? '');
+$smtpPort = (int)($cfg['smtp_port'] ?? 465);
+$smtpSecure = (string)($cfg['smtp_secure'] ?? 'ssl');
+$smtpUser = (string)($cfg['smtp_user'] ?? '');
+$smtpHasPassword = !empty($cfg['smtp_pass']);
 $siteTitle = (string)($c['site']['title'] ?? 'База-Металла');
 $contentJson = json_encode($c, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 if ($contentJson === false) {
@@ -323,7 +328,48 @@ $leadRows = array_slice($leads, 0, 100);
                                 Ящик должен существовать на хостинге. Если сомневаетесь — оставьте как есть.
                             </span>
                         </label>
-                        <button class="btn-primary btn-primary--sm" type="submit">Сохранить настройки</button>
+                        <div class="settings-subhead">Отправка через SMTP (необязательно)</div>
+                        <p class="settings-help">
+                            Без SMTP письма отправляются штатной функцией хостинга — это подходит для hoster.by.
+                            Если сайт на Render или другом контейнере, заполните данные SMTP: так письма
+                            будут уходить гарантированно.
+                        </p>
+                        <div class="settings-grid">
+                            <label class="field">
+                                <span class="field__label">SMTP-сервер</span>
+                                <input class="input" type="text" name="smtp_host" data-smtp-host
+                                       value="<?= e($smtpHost) ?>" placeholder="smtp.mail.ru">
+                            </label>
+                            <label class="field">
+                                <span class="field__label">Порт</span>
+                                <input class="input" type="number" name="smtp_port" data-smtp-port
+                                       value="<?= e((string)$smtpPort) ?>" placeholder="465">
+                            </label>
+                            <label class="field">
+                                <span class="field__label">Шифрование</span>
+                                <select class="input" name="smtp_secure" data-smtp-secure>
+                                    <option value="ssl"<?= $smtpSecure === 'ssl' ? ' selected' : '' ?>>SSL (порт 465)</option>
+                                    <option value="tls"<?= $smtpSecure === 'tls' ? ' selected' : '' ?>>STARTTLS (порт 587)</option>
+                                    <option value="none"<?= $smtpSecure === 'none' ? ' selected' : '' ?>>Без шифрования</option>
+                                </select>
+                            </label>
+                            <label class="field">
+                                <span class="field__label">Логин SMTP</span>
+                                <input class="input" type="text" name="smtp_user" data-smtp-user
+                                       value="<?= e($smtpUser) ?>" autocomplete="off">
+                            </label>
+                            <label class="field">
+                                <span class="field__label">Пароль SMTP</span>
+                                <input class="input" type="password" name="smtp_pass" data-smtp-pass
+                                       placeholder="<?= $smtpHasPassword ? 'Сохранён — оставьте пустым' : 'Пароль приложения' ?>"
+                                       autocomplete="new-password">
+                                <span class="field__hint">Пустое поле — оставить сохранённый пароль.</span>
+                            </label>
+                        </div>
+                        <div class="settings-actions">
+                            <button class="btn-primary btn-primary--sm" type="submit">Сохранить настройки</button>
+                            <button class="btn-ghost" type="button" data-test-mail>Проверить почту</button>
+                        </div>
                         <span class="form-note" data-settings-status></span>
                     </form>
                 </div>
@@ -389,7 +435,8 @@ $leadRows = array_slice($leads, 0, 100);
                         <p>Откройте «Резервные копии», найдите версию до неудачного изменения и нажмите «Восстановить». Сайт вернётся к ней. Хранятся 30 последних версий.</p>
 
                         <h3>5. Заявки и почта</h3>
-                        <p>Заявки приходят на адрес из раздела «Сайт и контакты» и дублируются в «Заявках». Чтобы письма не попадали в спам, создайте на hoster.by ящик отправителя (например, <code>no-reply@steel-serves.by</code>) и настройте SPF/DKIM по инструкции хостинга.</p>
+                        <p>Получатель задаётся в «Настройки → Куда приходят заявки». Заявки всегда дублируются в разделе «Заявки» — даже если письмо не ушло.</p>
+                        <p>На hoster.by достаточно указать ящик отправителя на домене (<code>no-reply@steel-serves.by</code>) и настроить SPF/DKIM. На Render и других контейнерах заполните блок SMTP: сервер, порт, шифрование, логин и пароль приложения. Кнопка «Проверить почту» покажет, работает ли настройка.</p>
 
                         <h3>6. Пароль и адрес входа</h3>
                         <p>Панель открывается по адресу <code>/login</code> (он же <code>/admin/</code>). Сохраните страницу входа в закладки браузера, чтобы не набирать адрес вручную.</p>
