@@ -1,0 +1,11 @@
+# Создаётся контейнером при первом запуске — в репозиторий не коммитим.
+site/data/config.php
+site/data/setup.lock
+site/data/leads.php
+site/data/mail.log
+site/data/rate.php
+site/data/login.php
+site/data/backups/*
+!site/data/backups/.gitkeep
+site/uploads/*
+!site/uploads/.htaccess
