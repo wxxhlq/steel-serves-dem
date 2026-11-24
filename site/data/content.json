@@ -716,7 +716,7 @@
   ],
   "works": {
     "title": "Наши работы",
-    "subtitle": "Работаем по всей Беларуси.",
+    "subtitle": "",
     "items": [
       {
         "src": "assets/img/work-01.webp",

@@ -463,17 +463,11 @@ $bizLd = [
                     <span<?= bm('installment.cta') ?>><?= e($installment['cta'] ?? '') ?></span><?= icon('arrow', 'btn__ico') ?>
                 </button>
             </div>
-            <div class="installment__agreement" data-reveal style="--d: .25s" aria-hidden="true">
-                <div class="steel-anim">
-                    <span class="steel-anim__grid"></span>
-                    <span class="steel-anim__rail steel-anim__rail--top"></span>
-                    <span class="steel-anim__rail steel-anim__rail--bottom"></span>
-                    <span class="steel-anim__post steel-anim__post--1"></span>
-                    <span class="steel-anim__post steel-anim__post--2"></span>
-                    <span class="steel-anim__post steel-anim__post--3"></span>
-                    <span class="steel-anim__scan"></span>
-                    <span class="steel-anim__spark"></span>
-                </div>
+            <div class="installment__agreement" data-reveal style="--d: .25s">
+                <figure class="project-photo">
+                    <img src="assets/img/work-02.webp" alt="Готовое ограждение из нержавеющей стали" loading="lazy">
+                    <figcaption class="project-photo__tag"><?= icon('check', 'ico') ?> Проект в подарок</figcaption>
+                </figure>
             </div>
         </div>
     </section>
@@ -501,7 +495,9 @@ $bizLd = [
                     <span class="section-index" data-reveal>04 / Портфолио</span>
                     <h2 class="section-title" data-reveal<?= bm('works.title') ?>><?= e($works['title'] ?? '') ?></h2>
                 </div>
-                <p class="section-sub" data-reveal style="--d:.1s"<?= bm('works.subtitle') ?>><?= e($works['subtitle'] ?? '') ?></p>
+                <?php if (($works['subtitle'] ?? '') !== ''): ?>
+                    <p class="section-sub" data-reveal style="--d:.1s"<?= bm('works.subtitle') ?>><?= e($works['subtitle'] ?? '') ?></p>
+                <?php endif; ?>
             </div>
         </div>
         <div class="works__scroller" data-scroller>
