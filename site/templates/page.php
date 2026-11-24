@@ -81,7 +81,6 @@ $bizLd = [
         'addressLocality' => 'Минский район',
     ],
     'areaServed' => [
-        ['@type' => 'AdministrativeArea', 'name' => 'Минская область'],
         ['@type' => 'Country', 'name' => 'Беларусь'],
     ],
     'hasOfferCatalog' => [
