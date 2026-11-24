@@ -291,13 +291,6 @@
         'process.subtitle': 'Подзаголовок',
         'process.steps.*.title': 'Название этапа',
         'process.steps.*.text': 'Описание этапа',
-        'installment.kicker': 'Надзаголовок',
-        'installment.title': 'Заголовок',
-        'installment.text': 'Текст',
-        'installment.bullets': 'Пункты списка',
-        'installment.cta': 'Текст кнопки',
-        'installment.image': 'Фото',
-        'installment.image_alt': 'Описание фото',
         'stats.*.value': 'Число',
         'stats.*.suffix': 'После числа',
         'stats.*.label': 'Подпись',
@@ -378,7 +371,6 @@
         'services.items.*.short': 'Показывается в узкой вкладке.',
         'services.items.*.badge': 'Например «от 3 дней».',
         'services.items.*.photos': 'Первое фото — обложка. Кнопка «Обложка» переносит фото в начало.',
-        'installment.image': 'Лучше фото с прозрачным фоном, PNG или WebP.',
         'works.items.*.src': 'Горизонтальное фото работы.',
         'stats.*.value': 'Только число, без пробелов и знаков.',
         'stats.*.suffix': 'Например «+» или «%».',
@@ -520,9 +512,6 @@
     function isImageKey(path) {
         var key = path[path.length - 1];
         if (path[0] === 'hero' && key === 'image') {
-            return true;
-        }
-        if (path[0] === 'installment' && key === 'image') {
             return true;
         }
         if (path[0] === 'works' && key === 'src') {
@@ -1006,7 +995,6 @@
         { key: 'advantages', title: 'Преимущества', desc: 'Блок «Почему нас выбирают».' },
         { key: 'services', title: 'Услуги', desc: 'Услуги, характеристики и фотографии.' },
         { key: 'process', title: 'Как работаем', desc: 'Этапы работы.' },
-        { key: 'installment', title: 'Рассрочка', desc: 'Блок про рассрочку и проект.' },
         { key: 'stats', title: 'Цифры', desc: 'Счётчики с анимацией.' },
         { key: 'works', title: 'Наши работы', desc: 'Галерея выполненных работ.' },
         { key: 'reviews', title: 'Отзывы', desc: 'Отзывы и сканы благодарностей.' },

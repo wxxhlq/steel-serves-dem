@@ -5,7 +5,6 @@ $hero = $c['hero'] ?? [];
 $adv = $c['advantages'] ?? [];
 $services = $c['services'] ?? [];
 $process = $c['process'] ?? [];
-$installment = $c['installment'] ?? [];
 $stats = $c['stats'] ?? [];
 $works = $c['works'] ?? [];
 $reviews = $c['reviews'] ?? [];
@@ -445,30 +444,6 @@ $bizLd = [
                     </li>
                 <?php endforeach; ?>
             </ol>
-        </div>
-    </section>
-
-    <section class="section installment">
-        <div class="container installment__grid">
-            <div class="installment__content" data-reveal>
-                <p class="kicker kicker--accent"<?= bm('installment.kicker') ?>><?= e($installment['kicker'] ?? '') ?></p>
-                <h2 class="installment__title"<?= bm('installment.title') ?>><?= e($installment['title'] ?? '') ?></h2>
-                <p class="installment__text"<?= bm('installment.text') ?>><?= e($installment['text'] ?? '') ?></p>
-                <ul class="ticks">
-                    <?php foreach (($installment['bullets'] ?? []) as $bi => $b): ?>
-                        <li><?= icon('check', 'ico') ?><span<?= bm('installment.bullets.' . $bi) ?>><?= e($b) ?></span></li>
-                    <?php endforeach; ?>
-                </ul>
-                <button class="btn btn--accent" type="button" data-open-lead data-source="installment">
-                    <span<?= bm('installment.cta') ?>><?= e($installment['cta'] ?? '') ?></span><?= icon('arrow', 'btn__ico') ?>
-                </button>
-            </div>
-            <div class="installment__agreement" data-reveal style="--d: .25s">
-                <figure class="project-photo">
-                    <img src="assets/img/work-02.webp" alt="Готовое ограждение из нержавеющей стали" loading="lazy">
-                    <figcaption class="project-photo__tag"><?= icon('check', 'ico') ?> Проект в подарок</figcaption>
-                </figure>
-            </div>
         </div>
     </section>
 

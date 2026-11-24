@@ -128,7 +128,7 @@ if ($do === 'save') {
         json_out(['ok' => false, 'message' => 'Не передан контент.'], 422);
     }
 
-    $required = ['site', 'nav', 'hero', 'advantages', 'services', 'process', 'installment', 'stats', 'works', 'reviews', 'faq', 'contacts', 'forms', 'privacy_html', 'footer'];
+    $required = ['site', 'nav', 'hero', 'advantages', 'services', 'process', 'stats', 'works', 'reviews', 'faq', 'contacts', 'forms', 'privacy_html', 'footer'];
     foreach ($required as $key) {
         if (!array_key_exists($key, $content)) {
             json_out(['ok' => false, 'message' => 'В данных нет раздела «' . $key . '». Обновите страницу и попробуйте снова.'], 422);
@@ -296,7 +296,7 @@ if ($do === 'restore') {
     if (!is_array($restored) || !isset($restored['site'])) {
         json_out(['ok' => false, 'message' => 'Файл копии повреждён.'], 422);
     }
-    $required = ['site', 'nav', 'hero', 'advantages', 'services', 'process', 'installment', 'stats', 'works', 'reviews', 'faq', 'contacts', 'forms', 'privacy_html', 'footer'];
+    $required = ['site', 'nav', 'hero', 'advantages', 'services', 'process', 'stats', 'works', 'reviews', 'faq', 'contacts', 'forms', 'privacy_html', 'footer'];
     foreach ($required as $key) {
         if (!array_key_exists($key, $restored)) {
             json_out(['ok' => false, 'message' => 'Копия неполная: нет раздела <' . $key . '>.'], 422);
