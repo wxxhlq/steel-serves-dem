@@ -79,7 +79,7 @@ $cssVer = @filemtime(ROOT . '/admin/assets/admin.css') ?: 1;
 <body class="login-page">
 <main class="login">
     <div class="login__brand">
-        <span class="login__mark">БМ</span>
+        <span class="login__mark">РНС</span>
         <span class="login__brand-text">
             <b>РостНержСталь</b>
             <span>панель управления сайтом</span>

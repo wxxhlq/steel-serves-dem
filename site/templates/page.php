@@ -171,8 +171,7 @@ $bizLd = [
 <dialog class="mobile-menu" id="mobile-menu" aria-label="Меню">
     <div class="mobile-menu__top container">
         <a class="logo logo--menu" href="#top" data-menu-link>
-            <span class="logo__mark" aria-hidden="true"><span>БМ</span></span>
-            <span class="logo__text"><span class="logo__name"<?= bm('site.company') ?>><?= e($company) ?></span></span>
+            <img class="logo__img" src="assets/img/logo-wordmark.webp" alt="<?= e($company) ?>">
         </a>
         <button class="burger burger--close" type="button" aria-label="Закрыть меню" data-menu-close>
             <span></span><span></span>

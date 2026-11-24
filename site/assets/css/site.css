@@ -710,6 +710,10 @@ ul, ol {
     height: 40px;
 }
 
+.logo--menu .logo__img {
+    height: 38px;
+}
+
 .burger--close span:nth-child(1) {
     top: 21px;
     transform: rotate(45deg);
@@ -2940,7 +2944,8 @@ body.is-locked {
         display: none;
     }
 
-    .header__right {
+    .header__right,
+    .nav + .header__right {
         margin-left: auto;
     }
 
