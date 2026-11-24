@@ -464,29 +464,15 @@ $bizLd = [
                 </button>
             </div>
             <div class="installment__agreement" data-reveal style="--d: .25s" aria-hidden="true">
-                <div class="agreement">
-                    <div class="agreement__meta">
-                        <span class="agreement__brand">РостНержСталь</span>
-                        <span class="agreement__num">05 / договор</span>
-                    </div>
-                    <div class="agreement__headline">
-                        <b>6</b>
-                        <span>месяцев<br>рассрочка</span>
-                    </div>
-                    <ol class="agreement__months">
-                        <li class="is-now">01</li>
-                        <li>02</li>
-                        <li>03</li>
-                        <li>04</li>
-                        <li>05</li>
-                        <li>06</li>
-                    </ol>
-                    <div class="agreement__ticks">
-                        <div class="agreement__tick"><?= icon('check', 'ico') ?><span>Проектные работы — в подарок</span></div>
-                        <div class="agreement__tick"><?= icon('check', 'ico') ?><span>Замер и расчёт — бесплатно</span></div>
-                        <div class="agreement__tick"><?= icon('check', 'ico') ?><span>Договор и закрывающие документы</span></div>
-                    </div>
-                    <p class="agreement__note">До 6 месяцев · для физлиц и организаций</p>
+                <div class="steel-anim">
+                    <span class="steel-anim__grid"></span>
+                    <span class="steel-anim__rail steel-anim__rail--top"></span>
+                    <span class="steel-anim__rail steel-anim__rail--bottom"></span>
+                    <span class="steel-anim__post steel-anim__post--1"></span>
+                    <span class="steel-anim__post steel-anim__post--2"></span>
+                    <span class="steel-anim__post steel-anim__post--3"></span>
+                    <span class="steel-anim__scan"></span>
+                    <span class="steel-anim__spark"></span>
                 </div>
             </div>
         </div>
