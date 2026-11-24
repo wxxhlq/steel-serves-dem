@@ -19,7 +19,7 @@ $phoneD = $site['phone_display'] ?? '8 (029) 335-50-68';
 $phone2 = $site['phone2'] ?? '';
 $phone2D = $site['phone2_display'] ?? '';
 $email = $site['email'] ?? '';
-$company = $site['company'] ?? 'База-Металла';
+$company = $site['company'] ?? 'РостНержСталь';
 $domain = rtrim($site['domain'] ?? 'https://steel-serves.by', '/');
 $ogImage = $domain . '/' . ltrim($site['og_image'] ?? 'assets/img/og.jpg', '/');
 $year = date('Y');
@@ -140,11 +140,8 @@ $bizLd = [
 <header class="header" data-header>
     <div class="header__bar container">
         <a class="logo" href="#top">
-            <span class="logo__mark" aria-hidden="true"><span>БМ</span></span>
-            <span class="logo__text">
-                <span class="logo__name"<?= bm('site.company') ?>><?= e($company) ?></span>
-                <span class="logo__sub">изделия из нержавеющей стали</span>
-            </span>
+            <img class="logo__img" src="assets/img/logo-wordmark.webp"
+                 alt="<?= e($company) ?> — перила и ограждения из нержавеющей стали">
         </a>
 
         <nav class="nav" aria-label="Основная навигация">
@@ -470,7 +467,7 @@ $bizLd = [
             <div class="installment__agreement" data-reveal style="--d: .25s" aria-hidden="true">
                 <div class="agreement">
                     <div class="agreement__meta">
-                        <span class="agreement__brand">База-Металла</span>
+                        <span class="agreement__brand">РостНержСталь</span>
                         <span class="agreement__num">05 / договор</span>
                     </div>
                     <div class="agreement__headline">
@@ -649,11 +646,8 @@ $bizLd = [
     <div class="container footer__grid">
         <div class="footer__brand">
             <a class="logo logo--footer" href="#top">
-                <span class="logo__mark" aria-hidden="true"><span>БМ</span></span>
-                <span class="logo__text">
-                    <span class="logo__name"><?= e($company) ?></span>
-                    <span class="logo__sub">изделия из нержавеющей стали</span>
-                </span>
+                <img class="logo__img logo__img--footer" src="assets/img/logo-full.webp"
+                     alt="<?= e($company) ?> — перила и ограждения из нержавеющей стали">
             </a>
             <p class="footer__tagline"<?= bm('footer.tagline') ?>><?= e($footer['tagline'] ?? '') ?></p>
         </div>
@@ -681,6 +675,7 @@ $bizLd = [
             <h3 class="footer__title"<?= bm('footer.legal_title') ?>><?= e($footer['legal_title'] ?? 'Документы') ?></h3>
             <ul class="footer__list">
                 <li><button class="link-btn" type="button" data-open-privacy>Политика конфиденциальности</button></li>
+                <li><a href="assets/docs/registration-certificate.pdf" target="_blank" rel="noopener">Свидетельство о регистрации</a></li>
                 <li><button class="link-btn" type="button" data-open-lead data-source="footer">Заказать звонок</button></li>
             </ul>
         </div>

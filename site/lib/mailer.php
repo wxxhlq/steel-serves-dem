@@ -45,7 +45,7 @@ function mailer_send(string $to, string $subject, string $html, array $extraHead
 
     $headers = [
         'Date: ' . date('r'),
-        'From: ' . mailer_encode_header('Сайт База-Металла') . ' <' . $from . '>',
+        'From: ' . mailer_encode_header('Сайт РостНержСталь') . ' <' . $from . '>',
         'To: ' . $to,
         'Subject: ' . mailer_encode_header($subject),
         'MIME-Version: 1.0',

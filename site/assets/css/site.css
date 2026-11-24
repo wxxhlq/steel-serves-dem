@@ -480,6 +480,18 @@ ul, ol {
     flex: none;
 }
 
+.logo__img {
+    display: block;
+    height: 44px;
+    width: auto;
+    max-width: none;
+}
+
+.logo--footer .logo__img {
+    height: auto;
+    width: 260px;
+}
+
 .logo__mark {
     display: grid;
     place-items: center;
@@ -3138,6 +3150,14 @@ body.is-locked {
 @media (max-width: 760px) {
     .header__bar {
         height: 72px;
+    }
+
+    .logo__img {
+        height: 40px;
+    }
+
+    .logo--footer .logo__img {
+        width: 230px;
     }
 
     .logo__sub {

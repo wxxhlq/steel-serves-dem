@@ -28,7 +28,7 @@ if (!is_logged_in()) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noindex, nofollow">
-        <title>Вход — База-Металла</title>
+        <title>Вход — РостНержСталь</title>
         <link rel="icon" href="../favicon.svg" type="image/svg+xml">
         <link rel="stylesheet" href="../assets/css/fonts.css">
         <link rel="stylesheet" href="assets/admin.css?v=<?= $cssVer ?>">
@@ -38,7 +38,7 @@ if (!is_logged_in()) {
         <div class="login__brand">
             <span class="login__mark">БМ</span>
             <span class="login__brand-text">
-                <b>База-Металла</b>
+                <b>РостНержСталь</b>
                 <span>панель управления сайтом</span>
             </span>
         </div>
@@ -91,7 +91,7 @@ $smtpPort = (int)($cfg['smtp_port'] ?? 465);
 $smtpSecure = (string)($cfg['smtp_secure'] ?? 'ssl');
 $smtpUser = (string)($cfg['smtp_user'] ?? '');
 $smtpHasPassword = !empty($cfg['smtp_pass']);
-$siteTitle = (string)($c['site']['title'] ?? 'База-Металла');
+$siteTitle = (string)($c['site']['title'] ?? 'РостНержСталь');
 $contentJson = json_encode($c, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 if ($contentJson === false) {
     $contentJson = '{}';
@@ -108,7 +108,7 @@ $leadRows = array_slice($leads, 0, 100);
     <meta name="csrf" content="<?= e(csrf_token()) ?>">
     <meta name="mail-from" content="<?= e($mailFrom) ?>">
     <meta name="lead-to" content="<?= e($leadTo) ?>">
-    <title>Управление сайтом — База-Металла</title>
+    <title>Управление сайтом — РостНержСталь</title>
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../assets/css/fonts.css">
     <link rel="stylesheet" href="assets/admin.css?v=<?= $cssVer ?>">
@@ -118,7 +118,7 @@ $leadRows = array_slice($leads, 0, 100);
     <aside class="sidebar">
         <div class="sidebar__brand">
             <span class="sidebar__mark">БМ</span>
-            <span class="sidebar__name">База-Металла<small>управление сайтом</small></span>
+            <span class="sidebar__name">РостНержСталь<small>управление сайтом</small></span>
         </div>
 
         <nav class="sidebar__nav" aria-label="Разделы админки">

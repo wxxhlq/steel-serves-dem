@@ -71,7 +71,7 @@ $cssVer = @filemtime(ROOT . '/admin/assets/admin.css') ?: 1;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <title>Установка админки — База-Металла</title>
+    <title>Установка админки — РостНержСталь</title>
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../assets/css/fonts.css">
     <link rel="stylesheet" href="assets/admin.css?v=<?= $cssVer ?>">
@@ -81,7 +81,7 @@ $cssVer = @filemtime(ROOT . '/admin/assets/admin.css') ?: 1;
     <div class="login__brand">
         <span class="login__mark">БМ</span>
         <span class="login__brand-text">
-            <b>База-Металла</b>
+            <b>РостНержСталь</b>
             <span>панель управления сайтом</span>
         </span>
     </div>

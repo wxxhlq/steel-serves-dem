@@ -37,12 +37,12 @@ function lead_response(bool $ok, string $message, int $code = 200, array $errors
     echo '<!doctype html><html lang="ru"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
     echo '<meta name="robots" content="noindex">';
-    echo '<title>' . $safeTitle . ' — База-Металла</title>';
+    echo '<title>' . $safeTitle . ' — РостНержСталь</title>';
     echo '<link rel="icon" href="/favicon.svg" type="image/svg+xml">';
     echo '<link rel="stylesheet" href="/assets/css/fonts.css">';
     echo '<link rel="stylesheet" href="/assets/css/site.css">';
     echo '</head><body><main class="notfound"><div class="container notfound__inner">';
-    echo '<p class="section-index">База-Металла</p>';
+    echo '<p class="section-index">РостНержСталь</p>';
     echo '<h1 class="notfound__title" style="font-size:clamp(2.4rem,6vw,5rem)">' . $safeTitle . '</h1>';
     echo '<p class="notfound__text">' . $safeMessage . '</p>';
     echo '<div class="notfound__actions">';
@@ -101,7 +101,7 @@ if ($errors) {
 $c = content_load();
 $site = $c['site'] ?? [];
 $forms = $c['forms'] ?? [];
-$company = (string)($site['company'] ?? 'База-Металла');
+$company = (string)($site['company'] ?? 'РостНержСталь');
 $cfg = config_load();
 // Получатель заявок: отдельная настройка, не отображается на сайте.
 // Если она не задана — используется контактный e-mail из контента.
