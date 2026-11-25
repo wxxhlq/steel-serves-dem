@@ -423,15 +423,18 @@ if ($do === 'testmail') {
         json_out(['ok' => false, 'message' => 'Сначала укажите корректный адрес получателя заявок.'], 422);
     }
 
-    // При включённой SMTP проверяем соединение, не отправляя письмо.
+    // При включённой SMTP тоже отправляем реальное тестовое письмо —
+    // одного соединения недостаточно, чтобы убедиться в доставке.
     if (!empty($cfg['smtp_host'])) {
-        [$ok, $message] = mailer_test_connection();
-        json_out(['ok' => $ok, 'message' => $message], $ok ? 200 : 502);
+        [$connected, $message] = mailer_test_connection();
+        if (!$connected) {
+            json_out(['ok' => false, 'message' => 'SMTP: ' . $message], 502);
+        }
     }
 
-    // Без SMTP проверяем штатную отправку, если она не отключена.
-    if (getenv('BM_DISABLE_MAIL') === '1') {
-        json_out(['ok' => false, 'message' => 'Отправка почты отключена переменной BM_DISABLE_MAIL.'], 422);
+    // Отправляем тестовое письмо (через SMTP или штатную mail()).
+    if (empty($cfg['smtp_host']) && getenv('BM_DISABLE_MAIL') === '1') {
+        json_out(['ok' => false, 'message' => 'Отправка почты отключена переменной BM_DISABLE_MAIL. Настройте SMTP.'], 422);
     }
     $sent = mailer_send(
         $leadTo,
@@ -439,7 +442,7 @@ if ($do === 'testmail') {
         '<p>Если вы видите это письмо, настройки почты работают.</p>'
     );
     json_out(
-        ['ok' => $sent, 'message' => $sent ? 'Тестовое письмо отправлено: ' . $leadTo : 'Не удалось отправить письмо. Проверьте/logs хостинга.'],
+        ['ok' => $sent, 'message' => $sent ? 'Тестовое письмо отправлено: ' . $leadTo : 'Не удалось отправить письмо. Проверьте логи хостинга и data/mail.log.'],
         $sent ? 200 : 502
     );
 }
