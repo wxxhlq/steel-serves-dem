@@ -55,14 +55,21 @@ function mailer_send(string $to, string $subject, string $html, array $extraHead
     ];
     $headers = array_merge($headers, $extraHeaders);
 
-    $ok = $s['host'] !== ''
-        ? smtp_send($s, $from, $to, $subject, $html, $headers)
-        : @mail($to, mailer_encode_header($subject), $html, implode("\r\n", $headers));
-
-    error_log('mail: to=' . $to . ' via=' . ($s['host'] !== '' ? 'smtp:' . $s['host'] : 'mail()') . ' result=' . ($ok ? 'sent' : 'failed'));
-    if (!$ok) {
-        create_log_entry('mail_failed to=' . $to . ' via=' . ($s['host'] !== '' ? 'smtp' : 'mail()'));
+    if ($s['host'] !== '') {
+        $ok = smtp_send($s, $from, $to, $subject, $html, $headers);
+        $via = 'smtp:' . $s['host'];
+    } else {
+        // Многие хостинги требуют явного envelope sender (-f), иначе письмо
+        // принимается, но не доставляется.
+        $via = 'mail()';
+        $ok = @mail($to, mailer_encode_header($subject), $html, implode("\r\n", $headers), '-f' . $from);
+        if (!$ok) {
+            $ok = @mail($to, mailer_encode_header($subject), $html, implode("\r\n", $headers));
+        }
     }
+
+    error_log('mail: to=' . $to . ' via=' . $via . ' result=' . ($ok ? 'sent' : 'failed'));
+    create_log_entry('mail ' . ($ok ? 'sent' : 'failed') . ' to=' . $to . ' via=' . $via . ' subject=' . $subject);
     return $ok;
 }
 
