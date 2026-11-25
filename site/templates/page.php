@@ -19,7 +19,7 @@ $phone2 = $site['phone2'] ?? '';
 $phone2D = $site['phone2_display'] ?? '';
 $email = $site['email'] ?? '';
 $company = $site['company'] ?? 'РостНержСталь';
-$domain = rtrim($site['domain'] ?? 'https://rostnerzhstal.by', '/');
+$domain = rtrim($site['domain'] ?? 'https://store.of.by', '/');
 $ogImage = $domain . '/' . ltrim($site['og_image'] ?? 'assets/img/og.jpg', '/');
 $year = date('Y');
 

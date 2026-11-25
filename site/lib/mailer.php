@@ -29,7 +29,7 @@ function mailer_from_address(array $s): string
 {
     return $s['from'] !== '' && filter_var($s['from'], FILTER_VALIDATE_EMAIL)
         ? $s['from']
-        : 'no-reply@rostnerzhstal.by';
+        : 'no-reply@store.of.by';
 }
 
 function mailer_encode_header(string $text): string

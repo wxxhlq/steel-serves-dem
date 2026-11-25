@@ -357,7 +357,7 @@
     };
 
     var HINTS = {
-        'site.domain': 'Например https://rostnerzhstal.by — без слэша в конце.',
+        'site.domain': 'Например https://store.of.by — без слэша в конце.',
         'site.phone': 'Только цифры и «+», например +375293355068.',
         'site.phone_display': 'Как телефон выглядит на сайте.',
         'site.email': 'Сюда приходят заявки с формы.',

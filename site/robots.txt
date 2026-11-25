@@ -8,4 +8,4 @@ Disallow: /templates/
 Disallow: /*?utm_
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid
 
-Sitemap: https://rostnerzhstal.by/sitemap.xml
+Sitemap: https://store.of.by/sitemap.xml

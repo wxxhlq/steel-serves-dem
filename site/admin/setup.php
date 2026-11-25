@@ -39,7 +39,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
     if (!$errors) {
         $content = content_load();
-        $host = parse_url((string)($content['site']['domain'] ?? ''), PHP_URL_HOST) ?: 'rostnerzhstal.by';
+        $host = parse_url((string)($content['site']['domain'] ?? ''), PHP_URL_HOST) ?: 'store.of.by';
 
         $cfg = [
             'password_hash' => password_hash($password, PASSWORD_DEFAULT),
