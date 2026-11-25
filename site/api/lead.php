@@ -128,7 +128,7 @@ $lead = [
 
 /* ---------- Письмо ---------- */
 
-$host = parse_url((string)($site['domain'] ?? ''), PHP_URL_HOST) ?: 'steel-serves.by';
+$host = parse_url((string)($site['domain'] ?? ''), PHP_URL_HOST) ?: 'rostnerzhstal.by';
 $sent = false;
 
 if (getenv('BM_DISABLE_MAIL') !== '1' && filter_var($to, FILTER_VALIDATE_EMAIL)) {

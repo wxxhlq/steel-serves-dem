@@ -315,7 +315,7 @@ $leadRows = array_slice($leads, 0, 100);
                         <label class="field">
                             <span class="field__label">Куда приходят заявки</span>
                             <input class="input" type="email" name="lead_email" data-lead-email
-                                   value="<?= e($leadTo) ?>" placeholder="info@steel-serves.by">
+                                   value="<?= e($leadTo) ?>" placeholder="info@rostnerzhstal.by">
                             <span class="field__hint">
                                 Сюда уходит каждая заявка с формы. Адрес не показывается посетителям сайта.
                             </span>
@@ -323,7 +323,7 @@ $leadRows = array_slice($leads, 0, 100);
                         <label class="field">
                             <span class="field__label">E-mail отправителя</span>
                             <input class="input" type="email" name="mail_from" data-mail-from
-                                   value="<?= e($mailFrom) ?>" placeholder="no-reply@steel-serves.by">
+                                   value="<?= e($mailFrom) ?>" placeholder="no-reply@rostnerzhstal.by">
                             <span class="field__hint">
                                 Ящик должен существовать на хостинге. Если сомневаетесь — оставьте как есть.
                             </span>
@@ -436,7 +436,7 @@ $leadRows = array_slice($leads, 0, 100);
 
                         <h3>5. Заявки и почта</h3>
                         <p>Получатель задаётся в «Настройки → Куда приходят заявки». Заявки всегда дублируются в разделе «Заявки» — даже если письмо не ушло.</p>
-                        <p>На hoster.by достаточно указать ящик отправителя на домене (<code>no-reply@steel-serves.by</code>) и настроить SPF/DKIM. На Render и других контейнерах заполните блок SMTP: сервер, порт, шифрование, логин и пароль приложения. Кнопка «Проверить почту» покажет, работает ли настройка.</p>
+                        <p>На hoster.by достаточно указать ящик отправителя на домене (<code>no-reply@rostnerzhstal.by</code>) и настроить SPF/DKIM. На Render и других контейнерах заполните блок SMTP: сервер, порт, шифрование, логин и пароль приложения. Кнопка «Проверить почту» покажет, работает ли настройка.</p>
 
                         <h3>6. Пароль и адрес входа</h3>
                         <p>Панель открывается по адресу <code>/login</code> (он же <code>/admin/</code>). Сохраните страницу входа в закладки браузера, чтобы не набирать адрес вручную.</p>
